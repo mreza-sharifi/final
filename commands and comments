@@ -1,0 +1,115 @@
+اضافه کردن COMMENT
+اضافه کردن قسمت خلاصه
+
+
+
+Create PROCEDURE select_user(USER_NAME CHAR(25))
+begin
+select * from users where username =USER_NAME;
+end//
+
+
+CREATE TRIGGER verifysubject BEFORE INSERT ON subjects
+
+  for each row
+  begin
+    if NEW.title not in(
+        select Subjects.title
+        where (NEW.title=subjects.title)
+        )THEN
+        CALL 'Insert not allowed';
+        end if;
+        end//
+
+        CREATE TRIGGER verifyExists BEFORE INSERT ON subjects
+            FOR EACH ROW
+            BEGIN
+                IF NEW.title not in (
+                    select A.title
+                    From Available subjects
+                    where (NEW.title = A.title)
+                ) THEN
+                   CALL `Insert not allowed`;
+
+                END IF;
+            END;
+        //
+
+CREATE TRIGGER verifyExists_subject BEFORE INSERT ON subjects
+FOR EACH ROW
+BEGIN
+IF EXISTS
+(
+SELECT * FROM subjects  WHERE title = NEW.title
+)
+THEN
+CALL `Insert not allowed`;
+END IF;
+END//
+
+CREATE TRIGGER verifyExists_article BEFORE INSERT ON articles
+FOR EACH ROW
+BEGIN
+IF EXISTS
+(
+SELECT * FROM articles  WHERE title = NEW.title
+)
+THEN
+CALL `Insert not allowed`;
+END IF;
+END//
+
+
+
+
+
+create table 'level'(
+'write'  ENUM('T','F') NOT NULL,
+'user_handle'  ENUM('T','F') NOT NULL)
+;
+
+
+CREATE TABLE level (
+id int  NOT NULL auto_increment,
+title char(25),
+writing  int,
+user_handle  int,
+primary key (id)
+);
+
+
+
+
+
+CREATE TABLE level (
+  id int  NOT NULL auto_increment,
+  title char(25),
+  writing  int,
+  user_handle  int,
+  PRIMARY KEY (id),
+  level_id int,
+  FOREIGN KEY (PersonID) REFERENCES level(id)
+
+    OrderID int NOT NULL,
+    OrderNumber int NOT NULL,
+    PersonID int,
+    PRIMARY KEY (OrderID),
+    FOREIGN KEY (PersonID) REFERENCES level(id)
+);
+
+
+
+for insert first execute "SELECT * FROM ..... where name=...." and fetchone ,then if EXISTS dont insert into the data base
+
+
+
+
+create table comments(
+id int NOT NULL auto_increment,
+writer_id char(25),
+body text,
+post_id int,
+PRIMARY KEY (id),
+FOREIGN KEY (post_id) REFERENCES articles(id),
+FOREIGN KEY (writer_id) REFERENCES users(id),
+);

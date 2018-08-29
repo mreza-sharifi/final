@@ -1,0 +1,121 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<!-- <link href="static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"> -->
+
+  <div class="jumbotron text-center" >
+
+    <h1> Welcome To FlaskApp</h1>
+    <p class="lead" >This Application is built on the Python Flask</p>
+    {% if session.logged_in ==NULL %}
+      <a href="/regs" class= "btn  btn-primary btn-lg" > Register </a>
+      <a href="/login" class= "btn btn-success btn-lg" > Login </a>
+    {% endif%}
+    <!-- <link href="static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"> -->
+  </div>
+
+  <div class="container-fluid" >
+
+    <div class="row" >
+            <!-- Blog Entries Column -->
+      <div class="col-md-8">
+
+        <!-- <h1 class="my-4">Page Heading
+          <small>Secondary Text</small>
+        </h1> -->
+
+        <!-- Blog Post -->
+
+        {%for article in articles %}
+          <div class="card mb-4">"
+            <img class="card-img-top"  src="static/img/upload_files/{{article.image_url}} "  alt="Card image cap">
+            <div class="card-body">
+              <h2 class="card-title">{{article.title}}</h2>
+              <!-- <h2 class="card-title">{{article.image_url}}</h2> -->
+              <p class="card-text">{{article.summery|safe}}</p>
+              <a href="article/{{article.id}}" class="btn btn-primary">Read More &rarr;</a>
+            </div>
+            <div class="card-footer text-muted">
+              Posted on  by
+              <a href="#">Start Bootstrap</a>
+            </div>
+          </div>
+        {%endfor%}
+
+
+
+        <!-- Pagination -->
+        <!-- <ul class="pagination justify-content-center mb-4">
+          <li class="page-item">
+            <a class="page-link" href="#">&larr; Older</a>
+          </li>
+          <li class="page-item disabled">
+            <a class="page-link" href="#">Newer &rarr;</a>
+          </li>
+        </ul> -->
+
+        <ul class="pagination justify-content-center mb-4">
+          <li class="page-item">
+            <a class="page-link" href="/{{page-1}}" tabindex="-1">Previous</a>
+          </li>
+          {%if page-1!=0 %}
+            <li class="page-item"><a class="page-link" href=/{{page-1}}>{{page-1}}</a></li>
+          {%endif%}
+          <li class="page-item active">
+            <a class="page-link" href=/{{page}}>{{page}} <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="page-item"><a class="page-link" href=/{{page+1}}>{{page+1}}</a></li>
+          <li class="page-item">
+            <a class="page-link" href="/{{page+1}}">Next</a>
+          </li>
+        </ul>
+
+      </div>
+
+      <!-- Sidebar Widgets Column -->
+      <div class="col-md-4">
+
+        <!-- Search Widget -->
+
+
+        <!-- Categories Widget -->
+        <div class="card my-4">
+          <h5 class="card-header">Categories</h5>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-lg-6">
+                {% for subject in subjects %}
+                  <tr>
+
+                    <ul class="list-unstyled mb-0">
+                      <li>
+                          <td> <a href="/cat/{{subject.id}}" >{{subject.title}}</a></td>
+                      </li>
+                    </ul>
+                    </tr>
+                {% endfor %}
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- Side Widget -->
+        <div class="card my-4">
+          <h5 class="card-header">Side Widget</h5>
+          <div class="card-body">
+            You can put anything you want inside of these side widgets. They are easy to use, and feature the new Bootstrap 4 card containers!
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+    <!-- /.row -->
+
+  </div>
+  <!-- /.container -->
+  <script src="static/vendor/jquery/jquery.min.js"></script>
+  <script src="static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+{% endblock %}
